@@ -11,4 +11,4 @@ tsconfig.tsbuildinfo
 # Python
 __pycache__/
 env/
-#config.py
+config.py
