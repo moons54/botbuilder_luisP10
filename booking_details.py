@@ -8,6 +8,7 @@ class BookingDetails:
         destination: str = None,
         origin: str = None,
         travel_date: str = None,
+        travel_date_end: str = None,
         unsupported_airports=None,
     ):
         if unsupported_airports is None:
@@ -15,4 +16,5 @@ class BookingDetails:
         self.destination = destination
         self.origin = origin
         self.travel_date = travel_date
+        self.travel_date_end = travel_date_end
         self.unsupported_airports = unsupported_airports

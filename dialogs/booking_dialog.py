@@ -9,6 +9,8 @@ from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory, BotTelemetryClient, NullTelemetryClient
 from .cancel_and_help_dialog import CancelAndHelpDialog
 from .date_resolver_dialog import DateResolverDialog
+from .date_resolver_dialog_end import DateResolverDialog_End
+
 
 
 class BookingDialog(CancelAndHelpDialog):
@@ -32,6 +34,7 @@ class BookingDialog(CancelAndHelpDialog):
                 self.destination_step,
                 self.origin_step,
                 self.travel_date_step,
+                self.travel_date_step_end,
                 # self.confirm_step,
                 self.final_step,
             ],
@@ -42,6 +45,9 @@ class BookingDialog(CancelAndHelpDialog):
         # self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
         self.add_dialog(
             DateResolverDialog(DateResolverDialog.__name__, self.telemetry_client)
+        )
+        self.add_dialog(
+            DateResolverDialog_End(DateResolverDialog_End.__name__, self.telemetry_client)
         )
         self.add_dialog(waterfall_dialog)
 
@@ -97,6 +103,25 @@ class BookingDialog(CancelAndHelpDialog):
             )  # pylint: disable=line-too-long
 
         return await step_context.next(booking_details.travel_date)
+     
+    async def travel_date_step_end(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+        """Prompt for travel date.
+        This will use the DATE_RESOLVER_DIALOG."""
+
+        booking_details = step_context.options
+
+        # Capture the results of the previous step
+        booking_details.origin = step_context.result
+        if not booking_details.travel_date_end or self.is_ambiguous(
+            booking_details.travel_date_end
+        ):
+            return await step_context.begin_dialog(
+                DateResolverDialog_End.__name__, booking_details.travel_date_end
+            )  # pylint: disable=line-too-long
+
+        return await step_context.next(booking_details.travel_date_end)
 
     async def confirm_step(
         self, step_context: WaterfallStepContext
