@@ -37,7 +37,7 @@ class BookingDialog(CancelAndHelpDialog):
                 self.travel_date_step,
                 self.travel_date_step_end,
                
-                # self.confirm_step,
+                self.confirm_step,
                 self.final_step,
             ],
         )
