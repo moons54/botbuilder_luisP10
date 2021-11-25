@@ -55,9 +55,7 @@ class LuisHelper:
                 result = BookingDetails()
 
                 # We need to get the result from the LUIS JSON which at every level returns an array.
-                to_entities = recognizer_result.entities.get("$instance", {}).get(
-                    "To", []
-                )
+                to_entities = recognizer_result.entities.get("$instance", {}).get("dst_city",[])
                 if len(to_entities) > 0:
                     if recognizer_result.entities.get("To", [{"$instance": {}}])[0][
                         "$instance"
@@ -68,8 +66,8 @@ class LuisHelper:
                             to_entities[0]["text"].capitalize()
                         )
 
-                from_entities = recognizer_result.entities.get("$instance", {}).get(
-                    "From", []
+                from_entities = recognizer_result.entities.get("$instance", {}).get("or_city"
+                    , []
                 )
                 if len(from_entities) > 0:
                     if recognizer_result.entities.get("From", [{"$instance": {}}])[0][
@@ -81,10 +79,14 @@ class LuisHelper:
                             from_entities[0]["text"].capitalize()
                         )
 
+                budget_entities = recognizer_result.entities.get("$instance", {}).get("budget", [])
+                if len(budget_entities) > 0:
+                    result.budget = budget_entities[0]["text"]
+
                 # This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop
                 # the Time part. TIMEX is a format that represents DateTime expressions that include some ambiguity.
                 # e.g. missing a Year.
-                date_entities = recognizer_result.entities.get("datetime", [])
+                date_entities = recognizer_result.entities.get("travel_date", [])
                 if date_entities:
                     timex = date_entities[0]["timex"]
 
@@ -95,6 +97,18 @@ class LuisHelper:
 
                 else:
                     result.travel_date = None
+                
+                date_entities_end = recognizer_result.entities.get("travel_date_end", [])
+                if date_entities_end:
+                    timex = date_entities_end[0]["timex"]
+
+                    if timex:
+                        datetime = timex[0].split("T")[0]
+
+                        result.travel_date_end = datetime
+
+                else:
+                    result.travel_date_end = None
 
         except Exception as exception:
             print(exception)

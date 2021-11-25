@@ -34,14 +34,14 @@ class DateResolverDialog_End(CancelAndHelpDialog):
         date_time_prompt.telemetry_client = telemetry_client
 
         waterfall_dialog = WaterfallDialog(
-            WaterfallDialog.__name__ + "4", [self.initial_step, self.final_step]
+            WaterfallDialog.__name__ + "3", [self.initial_step, self.final_step]
         )
         waterfall_dialog.telemetry_client = telemetry_client
 
         self.add_dialog(date_time_prompt)
         self.add_dialog(waterfall_dialog)
 
-        self.initial_dialog_id = WaterfallDialog.__name__ + "4"
+        self.initial_dialog_id = WaterfallDialog.__name__ + "3"
 
     async def initial_step(
         self, step_context: WaterfallStepContext

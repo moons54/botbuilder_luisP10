@@ -52,6 +52,7 @@ class BookingDialog(CancelAndHelpDialog):
             DateResolverDialog_End(DateResolverDialog_End.__name__, self.telemetry_client)
         )
         self.add_dialog(waterfall_dialog)
+        self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
 
         self.initial_dialog_id = WaterfallDialog.__name__
 
@@ -144,16 +145,24 @@ class BookingDialog(CancelAndHelpDialog):
 
 
     async def confirm_step(
+        
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         """Confirm the information the user has provided."""
         booking_details = step_context.options
 
+
+
         # Capture the results of the previous step
-        booking_details.travel_date = step_context.result
+        booking_details.travel_date_end = step_context.result
+
         msg = (
             f"Please confirm, I have you traveling to: { booking_details.destination }"
-            f" from: { booking_details.origin } on: { booking_details.travel_date}."
+            f" from: { booking_details.origin } "
+            f" traveling date are : { booking_details.travel_date } on: { booking_details.travel_date_end }."
+            f"You're Budget is : { booking_details.budget }"
+          
+
         )
 
         # Offer a YES/NO prompt.
@@ -161,16 +170,33 @@ class BookingDialog(CancelAndHelpDialog):
             ConfirmPrompt.__name__, PromptOptions(prompt=MessageFactory.text(msg))
         )
 
+
+
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         """Complete the interaction and end the dialog."""
-        if step_context.result:
-            booking_details = step_context.options
-            booking_details.travel_date = step_context.result
+        
 
-            booking_details.travel_date_end = step_context.result
+        booking_details = step_context.options
+        booking_details.travel_date = step_context.result
+
+        booking_details.travel_date_end = step_context.result
+        properties = {}
+        properties["origin"] = booking_details.origin
+        properties["destination"] = booking_details.destination
+        properties["travel_date"] = booking_details.travel_date
+        properties["travel_date_end"] = booking_details.travel_date_end
+        properties["budget"] = booking_details.budget
+
+        if step_context.result: 
+            self.telemetry_client.track_trace("YES answer", properties, "INFO")
 
 
             return await step_context.end_dialog(booking_details)
+        else:
+            self.telemetry_client.track_trace("NO answer", properties, "ERROR")
+
+
+            return await step_context.end_dialog()
 
         return await step_context.end_dialog()
 
