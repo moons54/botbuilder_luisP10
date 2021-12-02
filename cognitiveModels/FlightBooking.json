@@ -27,12 +27,7 @@
       "name": "end_date",
       "children": [],
       "roles": [],
-      "features": [
-        {
-          "modelName": "datetimeV2",
-          "isRequired": false
-        }
-      ]
+      "features": []
     },
     {
       "name": "or_city",
@@ -44,23 +39,13 @@
       "name": "str_date",
       "children": [],
       "roles": [],
-      "features": [
-        {
-          "modelName": "datetimeV2",
-          "isRequired": false
-        }
-      ]
+      "features": []
     }
   ],
   "hierarchicals": [],
   "composites": [],
   "closedLists": [],
-  "prebuiltEntities": [
-    {
-      "name": "datetimeV2",
-      "roles": []
-    }
-  ],
+  "prebuiltEntities": [],
   "utterances": [
     {
       "text": "good afternoon, i'd like to book a trip with my son from august 18 to august 29. he and i would be leaving from curitiba. what destinations can you offer?",
@@ -254,6 +239,30 @@
           "entity": "or_city",
           "startPos": 17,
           "endPos": 23,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "hello! were leaving from brasilia and looking to book our honeymoon",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "or_city",
+          "startPos": 25,
+          "endPos": 33,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "hey i wanna go to hiroshima w my fam",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "dst_city",
+          "startPos": 18,
+          "endPos": 27,
           "children": []
         }
       ]
@@ -583,6 +592,24 @@
       ]
     },
     {
+      "text": "hi im from neverland! and i want to go to mos eisley",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "or_city",
+          "startPos": 11,
+          "endPos": 20,
+          "children": []
+        },
+        {
+          "entity": "dst_city",
+          "startPos": 42,
+          "endPos": 51,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "hi im from punta cana can you help me find a vacation",
       "intent": "BookFlight",
       "entities": [
@@ -628,6 +655,18 @@
       "text": "hi im going on spriinggg break! can you help me and my friends book a package?",
       "intent": "BookFlight",
       "entities": []
+    },
+    {
+      "text": "hi im in the middle of travelling and i want to go to porto!",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "dst_city",
+          "startPos": 54,
+          "endPos": 59,
+          "children": []
+        }
+      ]
     },
     {
       "text": "hi im looking for a nice destination that i could go to from columbus",
@@ -773,6 +812,18 @@
           "entity": "or_city",
           "startPos": 18,
           "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "hi there! i finally have some vacation time starting on august 22nd and i am hoping to go away somewhere really far away and getting away from it all. do you have any suggestions for me?",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "str_date",
+          "startPos": 0,
+          "endPos": 10,
           "children": []
         }
       ]
@@ -1092,6 +1143,30 @@
       ]
     },
     {
+      "text": "hi! i'm looking to book a trip somewhere between august 19th and september 3rd. my budget is 1700.",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "str_date",
+          "startPos": 0,
+          "endPos": 10,
+          "children": []
+        },
+        {
+          "entity": "end_date",
+          "startPos": 0,
+          "endPos": 12,
+          "children": []
+        },
+        {
+          "entity": "budget",
+          "startPos": 93,
+          "endPos": 97,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "hi! my 3 best friends and i are looking for a trip to neverland between august 16 and 19 on a very tight budget of $3500. what can you do for us?",
       "intent": "BookFlight",
       "entities": [
@@ -1331,6 +1406,30 @@
       ]
     },
     {
+      "text": "i'd like to book a trip to monterrey from august 17th to august 25th.",
+      "intent": "BookFlight",
+      "entities": [
+        {
+          "entity": "str_date",
+          "startPos": 0,
+          "endPos": 10,
+          "children": []
+        },
+        {
+          "entity": "end_date",
+          "startPos": 0,
+          "endPos": 10,
+          "children": []
+        },
+        {
+          "entity": "dst_city",
+          "startPos": 27,
+          "endPos": 36,
+          "children": []
+        }
+      ]
+    },
+    {
       "text": "i'd like to get away from monday, august 15, 2016 to wednesday, august 31, 2016. my budget is $3200 and i would leave from detroit.",
       "intent": "BookFlight",
       "entities": [
@@ -1494,7 +1593,7 @@
     }
   ],
   "versionId": "0.1",
-  "name": "botluis-2021-11-24 15:43:33.186321",
+  "name": "botluis-2021-12-01 15:15:05.997697",
   "desc": "Flight booking App built with LUIS Python SDK.",
   "culture": "en-us",
   "tokenizerVersion": "1.0.0",
