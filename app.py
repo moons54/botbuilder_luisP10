@@ -16,17 +16,15 @@ from botbuilder.core import (
     BotFrameworkAdapterSettings,
     ConversationState,
     MemoryStorage,
-    UserState,
-)
+    UserState)
 from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity
 from botbuilder.applicationinsights import ApplicationInsightsTelemetryClient
 from botbuilder.integration.applicationinsights.aiohttp import (
     AiohttpTelemetryProcessor,
-    bot_telemetry_middleware,
-)
+    bot_telemetry_middleware)
 
-from config import DefaultConfig
+from bot_config import DefaultConfig
 from dialogs import MainDialog, BookingDialog
 from bots import DialogAndWelcomeBot
 
@@ -54,8 +52,7 @@ ADAPTER = AdapterWithErrorHandler(SETTINGS, CONVERSATION_STATE)
 # less frequent updates.
 INSTRUMENTATION_KEY = CONFIG.APPINSIGHTS_INSTRUMENTATION_KEY
 TELEMETRY_CLIENT = ApplicationInsightsTelemetryClient(
-    INSTRUMENTATION_KEY, telemetry_processor=AiohttpTelemetryProcessor(), client_queue_size=10
-)
+    INSTRUMENTATION_KEY, telemetry_processor=AiohttpTelemetryProcessor(), client_queue_size=10)
 
 # Create dialogs and Bot
 RECOGNIZER = FlightBookingRecognizer(CONFIG)
@@ -81,11 +78,12 @@ async def messages(req: Request) -> Response:
     return Response(status=HTTPStatus.OK)
 
 
-#APP = web.Application(middlewares=[bot_telemetry_middleware, aiohttp_error_middleware])
-#APP.router.add_post("/api/messages", messages)
-
-
-
+# For aiohttp deployment: www.youtube.com/watch?v=eLMYd4LGAu8
+# https://docs.microsoft.com/fr-fr/azure/app-service/configure-language-python#customize-startup-command
+# On Azure Portal: App Service >> Web App Configuration >> General Settings
+# Update <Startup Command> with:
+# python3.8 -m aiohttp.web -H 0.0.0.0 -P 8000 app:init_func
+# Note : app(.py) is the name of the app
 
 def init_func(argv):
     app = web.Application(middlewares=[bot_telemetry_middleware, aiohttp_error_middleware])
