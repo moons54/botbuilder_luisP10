@@ -24,10 +24,9 @@ from botbuilder.integration.applicationinsights.aiohttp import (
     AiohttpTelemetryProcessor,
     bot_telemetry_middleware)
 
-from bot_config import DefaultConfig
 from dialogs import MainDialog, BookingDialog
 from bots import DialogAndWelcomeBot
-
+from config import DefaultConfig
 from adapter_with_error_handler import AdapterWithErrorHandler
 from flight_booking_recognizer import FlightBookingRecognizer
 
@@ -84,16 +83,14 @@ async def messages(req: Request) -> Response:
 # Update <Startup Command> with:
 # python3.8 -m aiohttp.web -H 0.0.0.0 -P 8000 app:init_func
 # Note : app(.py) is the name of the app
+APP = web.Application(middlewares=[bot_telemetry_middleware, aiohttp_error_middleware])
+APP.router.add_post("/api/messages", messages)
 
-def init_func(argv):
-    app = web.Application(middlewares=[bot_telemetry_middleware, aiohttp_error_middleware])
-    app.router.add_post("/api/messages", messages)
-    return app
+
+
 
 if __name__ == "__main__":
-    app = init_func(None)
     try:
-        # Run app in production
-        web.run_app(app, host="localhost", port=CONFIG.PORT)
+        web.run_app(APP, host="localhost", port=CONFIG.PORT)
     except Exception as error:
         raise error
