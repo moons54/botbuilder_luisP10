@@ -83,14 +83,16 @@ async def messages(req: Request) -> Response:
 # Update <Startup Command> with:
 # python3.8 -m aiohttp.web -H 0.0.0.0 -P 8000 app:init_func
 # Note : app(.py) is the name of the app
-APP = web.Application(middlewares=[bot_telemetry_middleware, aiohttp_error_middleware])
-APP.router.add_post("/api/messages", messages)
 
-
-
+def init_func(argv):
+    app = web.Application(middlewares=[bot_telemetry_middleware, aiohttp_error_middleware])
+    app.router.add_post("/api/messages", messages)
+    return app
 
 if __name__ == "__main__":
+    app = init_func(None)
     try:
-        web.run_app(APP, host="localhost", port=CONFIG.PORT)
+        # Run app in production
+        web.run_app(app, host="localhost", port=CONFIG.PORT)
     except Exception as error:
         raise error
