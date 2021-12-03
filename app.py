@@ -26,11 +26,11 @@ from botbuilder.integration.applicationinsights.aiohttp import (
 
 from dialogs import MainDialog, BookingDialog
 from bots import DialogAndWelcomeBot
-from config import TestConfig
+from config import DefaultConfig
 from adapter_with_error_handler import AdapterWithErrorHandler
 from flight_booking_recognizer import FlightBookingRecognizer
 
-CONFIG = TestConfig()
+CONFIG = DefaultConfig()
 
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
