@@ -72,3 +72,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Application insights Overview](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview)
 - [Getting Started with Application Insights](https://github.com/Microsoft/ApplicationInsights-aspnetcore/wiki/Getting-Started-with-Application-Insights-for-ASP.NET-Core)
 - [Filtering and preprocessing telemetry in the Application Insights SDK](https://docs.microsoft.com/azure/azure-monitor/app/api-filtering-sampling)
+# Travel_by_p10
